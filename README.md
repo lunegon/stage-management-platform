@@ -34,7 +34,7 @@ Frontend → API Express → MongoDB
 
 Cloner le projet :
 
-git clone https://github.com/lunegon/stage-management-platform
+git clone https://github.com/USERNAME/stage-management-platform
 
 Installer les dépendances :
 
@@ -59,6 +59,6 @@ nginx/
 
 ## Auteurs
 
-Lucas
-Sam
+Lucas  
+Sam  
 Guillaume
