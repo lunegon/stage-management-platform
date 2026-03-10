@@ -5,7 +5,7 @@ function App() {
 
   const testApi = async () => {
     try {
-      const response = await fetch("http://79.137.35.83:5000/api/health");
+      const response = await fetch("/api/health");
       const data = await response.json();
       setMessage(data.status);
     } catch (error) {
@@ -14,7 +14,7 @@ function App() {
   };
 
   return (
-    <div style={{ fontFamily: "Arial, sans-serif", padding: "40px" }}>
+    <div style={{ padding: "40px", fontFamily: "Arial, sans-serif" }}>
       <h1>Plateforme de Gestion de Stages</h1>
       <p>Frontend React de test</p>
 
