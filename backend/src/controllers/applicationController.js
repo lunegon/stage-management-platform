@@ -12,12 +12,21 @@ const createApplication = async (req, res) => {
     }
 
     const offer = await Offer.findById(offreId);
+
     if (!offer) {
       return res.status(404).json({
         message: "Offre introuvable.",
       });
     }
 
+    // règle métier : une offre fermée ne peut pas recevoir de candidature
+    if (offer.statut !== "ouverte") {
+      return res.status(400).json({
+        message: "Cette offre n'accepte plus de candidatures.",
+      });
+    }
+
+    // règle métier : un étudiant ne peut pas postuler deux fois
     const existingApplication = await Application.findOne({
       etudiant: req.user._id,
       offre: offreId,
@@ -63,6 +72,7 @@ const getApplications = async (req, res) => {
         });
     } else if (req.user.role === "entreprise") {
       const offers = await Offer.find({ entreprise: req.user._id }).select("_id");
+
       const offerIds = offers.map((offer) => offer._id);
 
       applications = await Application.find({ offre: { $in: offerIds } })
@@ -117,9 +127,17 @@ const updateApplicationStatus = async (req, res) => {
       });
     }
 
+    // règle métier : seule l'entreprise propriétaire peut modifier la candidature
     if (application.offre.entreprise.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         message: "Vous n'êtes pas autorisé à modifier cette candidature.",
+      });
+    }
+
+    // règle métier : impossible de modifier une candidature déjà traitée
+    if (application.statut !== "en_attente") {
+      return res.status(400).json({
+        message: "Cette candidature a déjà été traitée.",
       });
     }
 
