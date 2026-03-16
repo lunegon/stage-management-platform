@@ -6,6 +6,7 @@ const userRoutes = require("./routes/userRoutes");
 const offerRoutes = require("./routes/offerRoutes");
 const applicationRoutes = require("./routes/applicationRoutes");
 const internshipRoutes = require("./routes/internshipRoutes");
+const evaluationRoutes = require("./routes/evaluationRoutes");
 
 const app = express();
 
@@ -21,5 +22,6 @@ app.use("/api/users", userRoutes);
 app.use("/api/offers", offerRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/internships", internshipRoutes);
+app.use("/api/evaluations", evaluationRoutes);
 
 module.exports = app;
