@@ -1,4 +1,5 @@
 const Offer = require("../models/Offer");
+const isValidObjectId = require("../utils/isValidObjectId");
 
 const createOffer = async (req, res) => {
   try {
@@ -49,6 +50,12 @@ const getOffers = async (req, res) => {
 
 const getOfferById = async (req, res) => {
   try {
+    if (!isValidObjectId(req.params.id)) {
+      return res.status(400).json({
+        message: "Identifiant d'offre invalide.",
+      });
+    }
+
     const offer = await Offer.findById(req.params.id).populate(
       "entreprise",
       "nom email role"

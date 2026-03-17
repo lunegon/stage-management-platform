@@ -1,5 +1,6 @@
 const Evaluation = require("../models/Evaluation");
 const Internship = require("../models/Internship");
+const isValidObjectId = require("../utils/isValidObjectId");
 
 const createEvaluation = async (req, res) => {
   try {
@@ -8,6 +9,18 @@ const createEvaluation = async (req, res) => {
     if (!internshipId || note === undefined) {
       return res.status(400).json({
         message: "internshipId et note sont obligatoires.",
+      });
+    }
+
+    if (!isValidObjectId(internshipId)) {
+      return res.status(400).json({
+        message: "Identifiant de stage invalide.",
+      });
+    }
+
+    if (note < 0 || note > 20) {
+      return res.status(400).json({
+        message: "La note doit être comprise entre 0 et 20.",
       });
     }
 
@@ -76,6 +89,12 @@ const getEvaluations = async (req, res) => {
 
 const getEvaluationById = async (req, res) => {
   try {
+    if (!isValidObjectId(req.params.id)) {
+      return res.status(400).json({
+        message: "Identifiant d'évaluation invalide.",
+      });
+    }
+
     const evaluation = await Evaluation.findById(req.params.id)
       .populate("enseignant", "nom email role")
       .populate({

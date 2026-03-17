@@ -1,5 +1,6 @@
 const Internship = require("../models/Internship");
 const Application = require("../models/Application");
+const isValidObjectId = require("../utils/isValidObjectId");
 
 const createInternship = async (req, res) => {
   try {
@@ -8,6 +9,18 @@ const createInternship = async (req, res) => {
     if (!applicationId || !dateDebut || !dateFin) {
       return res.status(400).json({
         message: "applicationId, dateDebut et dateFin sont obligatoires.",
+      });
+    }
+
+    if (!isValidObjectId(applicationId)) {
+      return res.status(400).json({
+        message: "Identifiant de candidature invalide.",
+      });
+    }
+
+    if (new Date(dateDebut) >= new Date(dateFin)) {
+      return res.status(400).json({
+        message: "La date de début doit être antérieure à la date de fin.",
       });
     }
 
@@ -103,6 +116,12 @@ const getInternships = async (req, res) => {
 
 const getInternshipById = async (req, res) => {
   try {
+    if (!isValidObjectId(req.params.id)) {
+      return res.status(400).json({
+        message: "Identifiant de stage invalide.",
+      });
+    }
+
     const internship = await Internship.findById(req.params.id)
       .populate("etudiant", "nom email role")
       .populate("entreprise", "nom email role")
