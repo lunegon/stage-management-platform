@@ -8,6 +8,9 @@ const applicationRoutes = require("./routes/applicationRoutes");
 const internshipRoutes = require("./routes/internshipRoutes");
 const evaluationRoutes = require("./routes/evaluationRoutes");
 
+const notFound = require("./middleware/notFound");
+const errorHandler = require("./middleware/errorHandler");
+
 const app = express();
 
 app.use(cors());
@@ -23,5 +26,8 @@ app.use("/api/offers", offerRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/internships", internshipRoutes);
 app.use("/api/evaluations", evaluationRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
 
 module.exports = app;
