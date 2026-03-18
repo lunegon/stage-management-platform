@@ -4,6 +4,7 @@ import RegisterPage from "./pages/RegisterPage";
 import OffersPage from "./pages/OffersPage";
 import ApplicationsPage from "./pages/ApplicationsPage";
 import InternshipsPage from "./pages/InternshipsPage";
+import CompanyApplicationsPage from "./pages/CompanyApplicationsPage";
 
 function App() {
   const [page, setPage] = useState("login");
@@ -40,6 +41,10 @@ function App() {
         <button onClick={() => setPage("internships")} style={{ padding: "10px 16px" }}>
           Mes stages
         </button>
+
+        <button onClick={() => setPage("company-applications")} style={{ padding: "10px 16px" }}>
+          Candidatures reçues
+        </button>
       </nav>
 
       {page === "login" && <LoginPage />}
@@ -47,6 +52,7 @@ function App() {
       {page === "offers" && <OffersPage />}
       {page === "applications" && <ApplicationsPage />}
       {page === "internships" && <InternshipsPage />}
+      {page === "company-applications" && <CompanyApplicationsPage />}
     </div>
   );
 }
