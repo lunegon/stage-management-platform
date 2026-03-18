@@ -1,6 +1,7 @@
 import { useState } from "react";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import OffersPage from "./pages/OffersPage";
 
 function App() {
   const [page, setPage] = useState("login");
@@ -15,6 +16,7 @@ function App() {
           justifyContent: "center",
           borderBottom: "1px solid #ccc",
           marginBottom: "20px",
+          flexWrap: "wrap",
         }}
       >
         <button onClick={() => setPage("login")} style={{ padding: "10px 16px" }}>
@@ -23,10 +25,14 @@ function App() {
         <button onClick={() => setPage("register")} style={{ padding: "10px 16px" }}>
           Inscription
         </button>
+        <button onClick={() => setPage("offers")} style={{ padding: "10px 16px" }}>
+          Offres
+        </button>
       </nav>
 
       {page === "login" && <LoginPage />}
       {page === "register" && <RegisterPage />}
+      {page === "offers" && <OffersPage />}
     </div>
   );
 }
