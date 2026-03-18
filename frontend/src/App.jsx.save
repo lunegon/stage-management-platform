@@ -24,22 +24,19 @@ function App() {
         <button onClick={() => setPage("login")} style={{ padding: "10px 16px" }}>
           Connexion
         </button>
-
         <button onClick={() => setPage("register")} style={{ padding: "10px 16px" }}>
           Inscription
         </button>
-
         <button onClick={() => setPage("offers")} style={{ padding: "10px 16px" }}>
           Offres
         </button>
-
-        <button onClick={() => setPage("applications")} style={{ padding: "10px 16px" }}>
+        <button
+          onClick={() => setPage("applications")}
+          style={{ padding: "10px 16px" }}
+        >
           Mes candidatures
         </button>
 
-        <button onClick={() => setPage("internships")} style={{ padding: "10px 16px" }}>
-          Mes stages
-        </button>
       </nav>
 
       {page === "login" && <LoginPage />}
