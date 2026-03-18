@@ -1,7 +1,34 @@
+import { useState } from "react";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
-  return <LoginPage />;
+  const [page, setPage] = useState("login");
+
+  return (
+    <div>
+      <nav
+        style={{
+          display: "flex",
+          gap: "10px",
+          padding: "20px",
+          justifyContent: "center",
+          borderBottom: "1px solid #ccc",
+          marginBottom: "20px",
+        }}
+      >
+        <button onClick={() => setPage("login")} style={{ padding: "10px 16px" }}>
+          Connexion
+        </button>
+        <button onClick={() => setPage("register")} style={{ padding: "10px 16px" }}>
+          Inscription
+        </button>
+      </nav>
+
+      {page === "login" && <LoginPage />}
+      {page === "register" && <RegisterPage />}
+    </div>
+  );
 }
 
 export default App;
