@@ -5,6 +5,7 @@ function CompanyApplicationsPage() {
   const [applications, setApplications] = useState([]);
   const [message, setMessage] = useState("Chargement des candidatures...");
   const [actionMessage, setActionMessage] = useState("");
+  const [dates, setDates] = useState({});
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -31,6 +32,41 @@ function CompanyApplicationsPage() {
 
       setActionMessage(data.message || "Statut mis à jour avec succès.");
       fetchApplications();
+    } catch (error) {
+      setActionMessage(error.message);
+    }
+  };
+
+  const handleDateChange = (applicationId, field, value) => {
+    setDates((prev) => ({
+      ...prev,
+      [applicationId]: {
+        ...prev[applicationId],
+        [field]: value,
+      },
+    }));
+  };
+
+  const createInternship = async (applicationId) => {
+    try {
+      const applicationDates = dates[applicationId] || {};
+      const { dateDebut, dateFin } = applicationDates;
+
+      if (!dateDebut || !dateFin) {
+        setActionMessage("Veuillez renseigner la date de début et la date de fin.");
+        return;
+      }
+
+      const data = await apiFetch("/internships", {
+        method: "POST",
+        body: JSON.stringify({
+          applicationId,
+          dateDebut,
+          dateFin,
+        }),
+      });
+
+      setActionMessage(data.message || "Stage créé avec succès.");
     } catch (error) {
       setActionMessage(error.message);
     }
@@ -152,6 +188,62 @@ function CompanyApplicationsPage() {
                   }}
                 >
                   Refuser
+                </button>
+              </div>
+            )}
+
+            {application.statut === "acceptee" && (
+              <div
+                style={{
+                  marginTop: "20px",
+                  padding: "15px",
+                  border: "1px solid #555",
+                  borderRadius: "8px",
+                  background: "#2a2a2a",
+                }}
+              >
+                <h3 style={{ marginBottom: "15px", color: "#4da6ff" }}>
+                  Créer le stage
+                </h3>
+
+                <div style={{ marginBottom: "10px" }}>
+                  <label>Date début</label>
+                  <input
+                    type="date"
+                    value={dates[application._id]?.dateDebut || ""}
+                    onChange={(e) =>
+                      handleDateChange(application._id, "dateDebut", e.target.value)
+                    }
+                    style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+                  />
+                </div>
+
+                <div style={{ marginBottom: "10px" }}>
+                  <label>Date fin</label>
+                  <input
+                    type="date"
+                    value={dates[application._id]?.dateFin || ""}
+                    onChange={(e) =>
+                      handleDateChange(application._id, "dateFin", e.target.value)
+                    }
+                    style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+                  />
+                </div>
+
+                <button
+                  onClick={() => createInternship(application._id)}
+                  style={{
+                    marginTop: "10px",
+                    padding: "10px 16px",
+                    border: "none",
+                    borderRadius: "6px",
+                    cursor: "pointer",
+                    background: "#4da6ff",
+                    color: "#fff",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Créer le stage
                 </button>
               </div>
             )}

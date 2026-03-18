@@ -5,47 +5,15 @@ import OffersPage from "./pages/OffersPage";
 import ApplicationsPage from "./pages/ApplicationsPage";
 import InternshipsPage from "./pages/InternshipsPage";
 import CompanyApplicationsPage from "./pages/CompanyApplicationsPage";
+import EvaluationsPage from "./pages/EvaluationsPage";
+import NavBar from "./components/NavBar";
 
 function App() {
   const [page, setPage] = useState("login");
 
   return (
-    <div>
-      <nav
-        style={{
-          display: "flex",
-          gap: "10px",
-          padding: "20px",
-          justifyContent: "center",
-          borderBottom: "1px solid #ccc",
-          marginBottom: "20px",
-          flexWrap: "wrap",
-        }}
-      >
-        <button onClick={() => setPage("login")} style={{ padding: "10px 16px" }}>
-          Connexion
-        </button>
-
-        <button onClick={() => setPage("register")} style={{ padding: "10px 16px" }}>
-          Inscription
-        </button>
-
-        <button onClick={() => setPage("offers")} style={{ padding: "10px 16px" }}>
-          Offres
-        </button>
-
-        <button onClick={() => setPage("applications")} style={{ padding: "10px 16px" }}>
-          Mes candidatures
-        </button>
-
-        <button onClick={() => setPage("internships")} style={{ padding: "10px 16px" }}>
-          Mes stages
-        </button>
-
-        <button onClick={() => setPage("company-applications")} style={{ padding: "10px 16px" }}>
-          Candidatures reçues
-        </button>
-      </nav>
+    <div className="app-shell">
+      <NavBar setPage={setPage} />
 
       {page === "login" && <LoginPage />}
       {page === "register" && <RegisterPage />}
@@ -53,6 +21,7 @@ function App() {
       {page === "applications" && <ApplicationsPage />}
       {page === "internships" && <InternshipsPage />}
       {page === "company-applications" && <CompanyApplicationsPage />}
+      {page === "evaluations" && <EvaluationsPage />}
     </div>
   );
 }
