@@ -2,6 +2,7 @@ import { useState } from "react";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import OffersPage from "./pages/OffersPage";
+import ApplicationsPage from "./pages/ApplicationsPage";
 
 function App() {
   const [page, setPage] = useState("login");
@@ -28,11 +29,18 @@ function App() {
         <button onClick={() => setPage("offers")} style={{ padding: "10px 16px" }}>
           Offres
         </button>
+        <button
+          onClick={() => setPage("applications")}
+          style={{ padding: "10px 16px" }}
+        >
+          Mes candidatures
+        </button>
       </nav>
 
       {page === "login" && <LoginPage />}
       {page === "register" && <RegisterPage />}
       {page === "offers" && <OffersPage />}
+      {page === "applications" && <ApplicationsPage />}
     </div>
   );
 }
