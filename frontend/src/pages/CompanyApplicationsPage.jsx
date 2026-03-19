@@ -7,7 +7,8 @@ function CompanyApplicationsPage() {
   const [actionMessage, setActionMessage] = useState("");
   const [dates, setDates] = useState({});
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
 
   const fetchApplications = async () => {
     try {
@@ -70,6 +71,30 @@ function CompanyApplicationsPage() {
     } catch (error) {
       setActionMessage(error.message);
     }
+  };
+
+  const getStatusStyle = (status) => {
+    if (status === "acceptee") {
+      return {
+        background: "#14532d",
+        color: "#86efac",
+        border: "1px solid #166534",
+      };
+    }
+
+    if (status === "refusee") {
+      return {
+        background: "#7f1d1d",
+        color: "#fca5a5",
+        border: "1px solid #991b1b",
+      };
+    }
+
+    return {
+      background: "#78350f",
+      color: "#fcd34d",
+      border: "1px solid #92400e",
+    };
   };
 
   return (
@@ -150,7 +175,17 @@ function CompanyApplicationsPage() {
 
             <p>
               <strong style={{ color: "#aaa" }}>Statut :</strong>{" "}
-              {application.statut}
+              <span
+                style={{
+                  ...getStatusStyle(application.statut),
+                  padding: "4px 10px",
+                  borderRadius: "999px",
+                  fontWeight: "bold",
+                  display: "inline-block",
+                }}
+              >
+                {application.statut}
+              </span>
             </p>
 
             <p>

@@ -13,7 +13,6 @@ export const apiFetch = async (endpoint, options = {}) => {
   };
 
   const response = await fetch(`${API_BASE}${endpoint}`, config);
-
   const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {

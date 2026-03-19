@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { apiFetch } from "../services/api";
+import { useAuth } from "../context/AuthContext";
+import PageContainer from "../components/PageContainer";
 
-function LoginPage() {
+function LoginPage({ setPage }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -15,47 +18,46 @@ function LoginPage() {
         body: JSON.stringify({ email, password }),
       });
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-
+      login(data.user, data.token);
       setMessage(`Connexion réussie : ${data.user.nom} (${data.user.role})`);
+      setPage("dashboard");
     } catch (error) {
       setMessage(error.message);
     }
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "40px auto", fontFamily: "Arial" }}>
-      <h1>Connexion</h1>
+    <PageContainer title="Connexion" subtitle="Connectez-vous à votre espace.">
+      <div className="card" style={{ maxWidth: "450px", margin: "0 auto" }}>
+        <form onSubmit={handleLogin}>
+          <div className="form-row">
+            <label>Email</label>
+            <input
+              className="input"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
-      <form onSubmit={handleLogin}>
-        <div style={{ marginBottom: "10px" }}>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{ width: "100%", padding: "8px" }}
-          />
-        </div>
+          <div className="form-row">
+            <label>Mot de passe</label>
+            <input
+              className="input"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
 
-        <div style={{ marginBottom: "10px" }}>
-          <label>Mot de passe</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: "100%", padding: "8px" }}
-          />
-        </div>
+          <button className="btn btn-primary" type="submit">
+            Se connecter
+          </button>
+        </form>
 
-        <button type="submit" style={{ padding: "10px 16px" }}>
-          Se connecter
-        </button>
-      </form>
-
-      {message && <p style={{ marginTop: "20px" }}>{message}</p>}
-    </div>
+        {message && <div className="message-box" style={{ marginTop: "20px" }}>{message}</div>}
+      </div>
+    </PageContainer>
   );
 }
 

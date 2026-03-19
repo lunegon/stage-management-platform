@@ -5,7 +5,8 @@ function ApplicationsPage() {
   const [applications, setApplications] = useState([]);
   const [message, setMessage] = useState("Chargement des candidatures...");
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -20,6 +21,30 @@ function ApplicationsPage() {
 
     fetchApplications();
   }, []);
+
+  const getStatusStyle = (status) => {
+    if (status === "acceptee") {
+      return {
+        background: "#14532d",
+        color: "#86efac",
+        border: "1px solid #166534",
+      };
+    }
+
+    if (status === "refusee") {
+      return {
+        background: "#7f1d1d",
+        color: "#fca5a5",
+        border: "1px solid #991b1b",
+      };
+    }
+
+    return {
+      background: "#78350f",
+      color: "#fcd34d",
+      border: "1px solid #92400e",
+    };
+  };
 
   return (
     <div style={{ maxWidth: "900px", margin: "40px auto", fontFamily: "Arial" }}>
@@ -70,7 +95,17 @@ function ApplicationsPage() {
 
             <p>
               <strong style={{ color: "#aaa" }}>Statut candidature :</strong>{" "}
-              {application.statut}
+              <span
+                style={{
+                  ...getStatusStyle(application.statut),
+                  padding: "4px 10px",
+                  borderRadius: "999px",
+                  fontWeight: "bold",
+                  display: "inline-block",
+                }}
+              >
+                {application.statut}
+              </span>
             </p>
 
             <p>
