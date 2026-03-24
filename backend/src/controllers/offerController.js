@@ -33,7 +33,11 @@ const createOffer = async (req, res) => {
 
 const getOffers = async (req, res) => {
   try {
-    const offers = await Offer.find().populate("entreprise", "nom email role");
+    // ✅ On n'affiche que les offres ouvertes dans la vue publique / frontend étudiant
+    const offers = await Offer.find({ statut: "ouverte" }).populate(
+      "entreprise",
+      "nom email role"
+    );
 
     res.status(200).json({
       message: "Liste des offres récupérée avec succès.",

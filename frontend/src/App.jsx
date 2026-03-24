@@ -10,6 +10,7 @@ import CompanyApplicationsPage from "./pages/CompanyApplicationsPage";
 import EvaluationsPage from "./pages/EvaluationsPage";
 import MyEvaluationsPage from "./pages/MyEvaluationsPage";
 import CreateOfferPage from "./pages/CreateOfferPage";
+import AdminPage from "./pages/AdminPage";
 import NavBar from "./components/NavBar";
 import { useAuth } from "./context/AuthContext";
 
@@ -32,6 +33,7 @@ function App() {
       {page === "evaluations" && isAuthenticated && <EvaluationsPage />}
       {page === "my-evaluations" && isAuthenticated && <MyEvaluationsPage />}
       {page === "create-offer" && isAuthenticated && <CreateOfferPage />}
+      {page === "admin" && isAuthenticated && <AdminPage />}
     </div>
   );
 }

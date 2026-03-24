@@ -75,7 +75,6 @@ function RegisterPage() {
               <option value="etudiant">Étudiant</option>
               <option value="entreprise">Entreprise</option>
               <option value="enseignant">Enseignant</option>
-              <option value="administrateur">Administrateur</option>
             </select>
           </div>
 

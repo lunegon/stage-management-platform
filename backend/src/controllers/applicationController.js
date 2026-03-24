@@ -152,6 +152,12 @@ const updateApplicationStatus = async (req, res) => {
     application.statut = status;
     await application.save();
 
+    // ✅ Si une candidature est acceptée, l'offre devient fermée
+    if (status === "acceptee") {
+      application.offre.statut = "fermee";
+      await application.offre.save();
+    }
+
     res.status(200).json({
       message: "Statut de la candidature mis à jour avec succès.",
       application,

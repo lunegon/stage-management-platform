@@ -7,6 +7,7 @@ const offerRoutes = require("./routes/offerRoutes");
 const applicationRoutes = require("./routes/applicationRoutes");
 const internshipRoutes = require("./routes/internshipRoutes");
 const evaluationRoutes = require("./routes/evaluationRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 const notFound = require("./middleware/notFound");
 const errorHandler = require("./middleware/errorHandler");
@@ -26,6 +27,7 @@ app.use("/api/offers", offerRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/internships", internshipRoutes);
 app.use("/api/evaluations", evaluationRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -44,15 +44,25 @@ function NavBar({ setPage }) {
         </>
       )}
 
-      {isAuthenticated &&
-        (user?.role === "enseignant" || user?.role === "administrateur") && (
-          <>
-            <button onClick={() => setPage("dashboard")}>Dashboard</button>
-            <button onClick={() => setPage("internships")}>Stages</button>
-            <button onClick={() => setPage("evaluations")}>Évaluations</button>
-            <button onClick={handleLogout}>Déconnexion</button>
-          </>
-        )}
+      {isAuthenticated && user?.role === "administrateur" && (
+        <>
+          <button onClick={() => setPage("dashboard")}>Dashboard</button>
+          <button onClick={() => setPage("admin")}>Administration</button>
+          <button onClick={() => setPage("offers")}>Offres</button>
+          <button onClick={() => setPage("internships")}>Stages</button>
+          <button onClick={() => setPage("evaluations")}>Évaluations</button>
+          <button onClick={handleLogout}>Déconnexion</button>
+        </>
+      )}
+
+      {isAuthenticated && user?.role === "enseignant" && (
+        <>
+          <button onClick={() => setPage("dashboard")}>Dashboard</button>
+          <button onClick={() => setPage("internships")}>Stages</button>
+          <button onClick={() => setPage("evaluations")}>Évaluations</button>
+          <button onClick={handleLogout}>Déconnexion</button>
+        </>
+      )}
     </nav>
   );
 }
