@@ -5,14 +5,14 @@
 ## 🌐 Base URL
 
 ### Local
-\`\`\`
+```
 http://localhost/api
-\`\`\`
+```
 
 ### Accès externe
-\`\`\`
+```
 http://79.137.35.83/api
-\`\`\`
+```
 
 ---
 
@@ -35,10 +35,10 @@ Cette API permet de gérer l’ensemble du cycle de vie d’un stage :
 ## 🔐 Authentification
 
 ### Headers
-\`\`\`
+```
 Authorization: Bearer TOKEN
 Content-Type: application/json
-\`\`\`
+```
 
 ---
 
@@ -57,17 +57,17 @@ Content-Type: application/json
 **POST /auth/register**
 
 ### Body
-\`\`\`json
+```json
 {
   "nom": "Sam",
   "email": "sam@test.com",
   "password": "123456",
   "role": "etudiant"
 }
-\`\`\`
+```
 
 ### Réponse
-\`\`\`json
+```json
 {
   "message": "Utilisateur créé avec succès.",
   "user": {
@@ -77,7 +77,7 @@ Content-Type: application/json
     "role": "etudiant"
   }
 }
-\`\`\`
+```
 
 ---
 
@@ -85,15 +85,15 @@ Content-Type: application/json
 **POST /auth/login**
 
 ### Body
-\`\`\`json
+```json
 {
   "email": "sam@test.com",
   "password": "123456"
 }
-\`\`\`
+```
 
 ### Réponse
-\`\`\`json
+```json
 {
   "message": "Connexion réussie.",
   "token": "JWT_TOKEN",
@@ -104,7 +104,7 @@ Content-Type: application/json
     "role": "etudiant"
   }
 }
-\`\`\`
+```
 
 ---
 
@@ -114,14 +114,14 @@ Content-Type: application/json
 **GET /users/profile**
 
 ### Réponse
-\`\`\`json
+```json
 {
   "_id": "ID_USER",
   "nom": "Sam",
   "email": "sam@test.com",
   "role": "etudiant"
 }
-\`\`\`
+```
 
 ---
 
@@ -131,7 +131,7 @@ Content-Type: application/json
 **GET /offers**
 
 ### Réponse
-\`\`\`json
+```json
 {
   "message": "Liste des offres récupérée avec succès.",
   "count": 1,
@@ -151,7 +151,7 @@ Content-Type: application/json
     }
   ]
 }
-\`\`\`
+```
 
 ---
 
@@ -159,18 +159,18 @@ Content-Type: application/json
 **GET /offers/:id**
 
 ### Réponse
-\`\`\`json
+```json
 {
- "message": "Offre récupérée avec succès.",
- "offer": {
-   "_id": "ID_OFFER",
-   "titre": "Stage - Support Informatique",
-   "description": "Support et maintenance",
-   "localisation": "Courbevoie",
-   "statut": "ouverte"
- }
+  "message": "Offre récupérée avec succès.",
+  "offer": {
+    "_id": "ID_OFFER",
+    "titre": "Stage - Support Informatique",
+    "description": "Support et maintenance",
+    "localisation": "Courbevoie",
+    "statut": "ouverte"
+  }
 }
-\`\`\`
+```
 
 ---
 
@@ -178,14 +178,14 @@ Content-Type: application/json
 **POST /offers**
 
 ### Body
-\`\`\`json
+```json
 {
  "titre": "Stage Développeur Web",
  "description": "Développement d’une plateforme de gestion de stages.",
  "localisation": "Paris",
  "statut": "ouverte"
 }
-\`\`\`
+```
 
 ---
 
@@ -195,13 +195,13 @@ Content-Type: application/json
 **GET /applications**
 
 ### Réponse
-\`\`\`json
+```json
 {
  "message": "Liste des candidatures récupérée avec succès.",
  "count": 1,
  "applications": [...]
 }
-\`\`\`
+```
 
 ---
 
@@ -209,12 +209,12 @@ Content-Type: application/json
 **POST /applications**
 
 ### Body
-\`\`\`json
+```json
 {
  "offreId": "ID_OFFER",
  "message": "Bonjour, je souhaite postuler à cette offre."
 }
-\`\`\`
+```
 
 ---
 
@@ -222,11 +222,11 @@ Content-Type: application/json
 **PATCH /applications/:id/status**
 
 ### Body
-\`\`\`json
+```json
 {
  "status": "acceptee"
 }
-\`\`\`
+```
 
 ---
 
@@ -236,13 +236,13 @@ Content-Type: application/json
 **GET /internships**
 
 ### Réponse
-\`\`\`json
+```json
 {
  "message": "Liste des stages récupérée avec succès.",
  "count": 1,
  "internships": [...]
 }
-\`\`\`
+```
 
 ---
 
@@ -255,13 +255,13 @@ Content-Type: application/json
 **POST /internships**
 
 ### Body
-\`\`\`json
+```json
 {
  "applicationId": "ID_APPLICATION",
  "dateDebut": "2026-04-01",
  "dateFin": "2026-08-31"
 }
-\`\`\`
+```
 
 ---
 
@@ -281,19 +281,20 @@ Content-Type: application/json
 **POST /evaluations**
 
 ### Body
-\`\`\`json
+```json
 {
  "internshipId": "ID_INTERNSHIP",
  "note": 16,
  "commentaire": "Bon travail global."
 }
-\`\`\`
+```
 
 ---
 
 # 🛠️ 7. ADMINISTRATION
 
 ### Routes admin
+
 - GET /admin/stats  
 - DELETE /admin/reset  
 - GET /admin/users  
@@ -311,46 +312,46 @@ Content-Type: application/json
 
 # ❤️ 8. HEALTHCHECK
 
-\`\`\`json
+```json
 { "status": "API running" }
-\`\`\`
+```
 
 ---
 
 # ⚠️ 9. Gestion des erreurs
 
 ### 400
-\`\`\`json
+```json
 { "message": "Identifiant d'offre invalide." }
-\`\`\`
+```
 
 ### 401
-\`\`\`json
+```json
 { "message": "Token invalide." }
-\`\`\`
+```
 
 ### 403
-\`\`\`json
+```json
 { "message": "Accès refusé." }
-\`\`\`
+```
 
 ### 404
-\`\`\`json
+```json
 { "message": "Offre introuvable." }
-\`\`\`
+```
 
 ### 409
-\`\`\`json
+```json
 { "message": "Vous avez déjà postulé à cette offre." }
-\`\`\`
+```
 
 ### 500
-\`\`\`json
+```json
 {
  "message": "Erreur serveur.",
  "error": "détail technique"
 }
-\`\`\`
+```
 
 ---
 
@@ -367,6 +368,7 @@ Content-Type: application/json
 ---
 
 # 📦 11. Technologies
+
 - React + Vite  
 - Node.js + Express  
 - MongoDB + Mongoose  
@@ -375,6 +377,6 @@ Content-Type: application/json
 
 ---
 
-# ✅ 12. État du projet  
-API 100 % connectée & fonctionnelle  
-\`\`\`
+# ✅ 12. État du projet
+
+API 100 % connectée & fonctionnelle 🚀
