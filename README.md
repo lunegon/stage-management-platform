@@ -86,6 +86,7 @@ stage-app/
 ```bash
 git clone <repo>
 cd stage-app
+````
 2. Lancer le projet
 docker compose up -d --build
 3. Accès
