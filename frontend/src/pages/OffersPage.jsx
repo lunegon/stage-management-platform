@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { apiFetch } from "../services/api";
+import PageContainer from "../components/PageContainer";
+import { useAuth } from "../context/AuthContext";
 
 function OffersPage() {
   const [offers, setOffers] = useState([]);
   const [message, setMessage] = useState("Chargement des offres...");
   const [actionMessage, setActionMessage] = useState("");
+  const [search, setSearch] = useState("");
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchOffers = async () => {
@@ -21,6 +24,30 @@ function OffersPage() {
 
     fetchOffers();
   }, []);
+
+  const filteredOffers = useMemo(() => {
+    const keyword = search.trim().toLowerCase();
+
+    if (!keyword) return offers;
+
+    return offers.filter((offer) => {
+      const titre = offer.titre?.toLowerCase() || "";
+      const description = offer.description?.toLowerCase() || "";
+      const localisation = offer.localisation?.toLowerCase() || "";
+      const statut = offer.statut?.toLowerCase() || "";
+      const entrepriseNom = offer.entreprise?.nom?.toLowerCase() || "";
+      const entrepriseEmail = offer.entreprise?.email?.toLowerCase() || "";
+
+      return (
+        titre.includes(keyword) ||
+        description.includes(keyword) ||
+        localisation.includes(keyword) ||
+        statut.includes(keyword) ||
+        entrepriseNom.includes(keyword) ||
+        entrepriseEmail.includes(keyword)
+      );
+    });
+  }, [offers, search]);
 
   const handleApply = async (offerId) => {
     try {
@@ -39,97 +66,85 @@ function OffersPage() {
   };
 
   return (
-    <div style={{ maxWidth: "900px", margin: "40px auto", fontFamily: "Arial" }}>
-      <h1>Liste des offres</h1>
+    <PageContainer
+      title="Liste des offres"
+      subtitle={
+        user
+          ? `Connecté en tant que ${user.nom} (${user.role})`
+          : "Consultez les offres disponibles."
+      }
+    >
+      {actionMessage && <div className="message-box">{actionMessage}</div>}
+      {message && <div className="message-box">{message}</div>}
 
-      {user ? (
-        <p>
-          Connecté en tant que <strong>{user.nom}</strong> ({user.role})
+      <div className="card" style={{ marginBottom: "20px" }}>
+        <div className="form-row" style={{ marginBottom: 0 }}>
+          <label>Rechercher une offre</label>
+          <input
+            className="input"
+            type="text"
+            placeholder="Ex: Courbevoie, Catalina, support, Paris..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
+        <p style={{ marginTop: "12px", color: "#94a3b8" }}>
+          Recherche par mot-clé sur le titre, la description, la ville ou l’entreprise.
         </p>
-      ) : (
-        <p>Aucun utilisateur connecté.</p>
+      </div>
+
+      {!message && filteredOffers.length === 0 && (
+        <div className="card">
+          {search
+            ? "Aucune offre ne correspond à votre recherche."
+            : "Aucune offre disponible."}
+        </div>
       )}
 
-      {actionMessage && (
-        <p
-          style={{
-            marginBottom: "20px",
-            padding: "10px",
-            background: "#2d2d2d",
-            border: "1px solid #555",
-            borderRadius: "6px",
-          }}
-        >
-          {actionMessage}
-        </p>
-      )}
-
-      {message && <p>{message}</p>}
-
-      {!message && offers.length === 0 && <p>Aucune offre disponible.</p>}
-
-      <div style={{ display: "grid", gap: "20px" }}>
-        {offers.map((offer) => (
-          <div
-            key={offer._id}
-            style={{
-              border: "1px solid #444",
-              borderRadius: "8px",
-              padding: "20px",
-              background: "#1e1e1e",
-              color: "#fff",
-            }}
-          >
-            <h2 style={{ marginBottom: "10px", color: "#4da6ff" }}>
-              {offer.titre}
-            </h2>
+      <div className="grid">
+        {filteredOffers.map((offer) => (
+          <div key={offer._id} className="card">
+            <h2 className="card-title">{offer.titre}</h2>
 
             <p>
-              <strong style={{ color: "#aaa" }}>Description :</strong>{" "}
-              {offer.description}
+              <span className="label">Description :</span> {offer.description}
             </p>
+
             <p>
-              <strong style={{ color: "#aaa" }}>Localisation :</strong>{" "}
-              {offer.localisation}
+              <span className="label">Localisation :</span> {offer.localisation}
             </p>
+
             <p>
-              <strong style={{ color: "#aaa" }}>Statut :</strong> {offer.statut}
+              <span className="label">Statut :</span> {offer.statut}
             </p>
 
             {offer.entreprise && (
               <>
                 <p>
-                  <strong style={{ color: "#aaa" }}>Entreprise :</strong>{" "}
-                  {offer.entreprise.nom}
+                  <span className="label">Entreprise :</span> {offer.entreprise.nom}
                 </p>
+
                 <p>
-                  <strong style={{ color: "#aaa" }}>Email :</strong>{" "}
-                  {offer.entreprise.email}
+                  <span className="label">Email :</span> {offer.entreprise.email}
                 </p>
               </>
             )}
 
             {user && user.role === "etudiant" && (
-              <button
-                onClick={() => handleApply(offer._id)}
-                style={{
-                  marginTop: "15px",
-                  padding: "10px 16px",
-                  border: "none",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                  background: "#4da6ff",
-                  color: "#fff",
-                  fontWeight: "bold",
-                }}
-              >
-                Postuler
-              </button>
+              <div className="btn-row">
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handleApply(offer._id)}
+                >
+                  Postuler
+                </button>
+              </div>
             )}
           </div>
         ))}
       </div>
-    </div>
+    </PageContainer>
   );
 }
 
