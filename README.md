@@ -109,15 +109,15 @@ stage-app/
 ## 🚀 Installation & lancement
 
 ### 1. Cloner le projet
-\`\`\`bash
+```bash
 git clone <repo>
 cd stage-app
-\`\`\`
+```
 
 ### 2. Lancer le projet
-\`\`\`bash
+```bash
 docker compose up -d --build
-\`\`\`
+```
 
 ### 3. Accès
 - Frontend : http://localhost  
